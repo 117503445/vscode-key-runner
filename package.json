@@ -3,6 +3,8 @@
   "displayName": "key-runner",
   "description": "",
   "version": "0.0.1",
+  "publisher": "117503445",
+  "repository": "https://github.com/117503445/vscode-key-runner",
   "engines": {
     "vscode": "^1.91.0"
   },

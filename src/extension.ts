@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('key-runner.run', async () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from key-runner!');
+		// vscode.window.showInformationMessage('Hello World from key-runner!');
 
 		async function getTerminal(): Promise<vscode.Terminal> {
 			let terminal: vscode.Terminal | undefined = undefined;
