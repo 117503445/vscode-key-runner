@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  default:
+    desc: "The default task" 
+    deps: [ext]
+
+  ext:
+    desc: "Build and Install extension"
+    cmds:
+      - vsce package --allow-missing-repository
+      - code-server --install-extension key-runner-0.0.1.vsix
