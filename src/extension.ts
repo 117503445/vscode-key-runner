@@ -1,7 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as childProcess from 'child_process';
 
 let outputChannel: vscode.OutputChannel;
 
@@ -40,53 +39,11 @@ export function activate(context: vscode.ExtensionContext) {
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from key-runner!');
 
-
 		async function getTerminal(): Promise<vscode.Terminal> {
-			let terminal;
-			if (vscode.window.terminals.length > 0) {
-				terminal = vscode.window.terminals[vscode.window.terminals.length - 1];
-
-				const pid = await terminal.processId;
-				if (pid) {
-					outputChannel.appendLine(`Terminal PID: ${pid}`);
-
-					const tty = await new Promise((res, rej) => {
-						childProcess.exec(`ps -o tty "${pid}"`, (err, stdout, stderr) => {
-							if (err) {
-								rej(err);
-								return;
-							}
-							res(stdout.split("\n")[1].trim());
-						});
-					});
-					outputChannel.appendLine(`Terminal TTY: ${tty}`);
-
-					childProcess.exec(`ps -t ${tty} -o pid,state,cmd | awk '!/Z/ {print $0}'`, (err, stdout, stderr) => {
-						if (err) {
-							return;
-						}
-
-						outputChannel.appendLine(`stdout: ${stdout}`);
-
-					});
-				}
-
-
-				// const [ttyout, ttyerr] =await exec(`ps -o tty "${pid}"`);
-				// const tty = ttyout.split("\n")[1].trim();
-				// const [pidout, piderr] = await exec(`ps -t ${tty} -o pid,ppid,start,command`);
-				// const list = pidout
-				// 	.split("\n")
-				// 	.slice(1)
-				// 	.map(line => {
-				// 		const [pid, ppid, start, ...commandParts] = line.trim().split(/\s+/g);
-				// 		const command = commandParts.join(" ");
-				// 		return { pid, start, command, ppid };
-				// 	})
-				// 	.filter(line => line.ppid == parentPid);
-
-			} else {
-				terminal = vscode.window.createTerminal();
+			let terminal: vscode.Terminal | undefined = undefined;
+			terminal = vscode.window.terminals.find(t => t.name === "Runner");
+			if (!terminal) {
+				terminal = vscode.window.createTerminal("Runner");
 			}
 
 			return terminal;
