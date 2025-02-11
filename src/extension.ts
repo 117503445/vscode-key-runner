@@ -13,14 +13,30 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('key-runner.helloWorld', () => {
+	const disposable = vscode.commands.registerCommand('key-runner.run', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from key-runner!');
+
+
+		function getTerminal(): vscode.Terminal {
+			let terminal;
+			if (vscode.window.terminals.length > 0) {
+				terminal = vscode.window.terminals[vscode.window.terminals.length - 1];
+			} else {
+				terminal = vscode.window.createTerminal();
+			}
+
+			return terminal;
+		}
+		const terminal = getTerminal();
+
+		terminal.sendText(`go-task`);
+		terminal.show();
 	});
 
 	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

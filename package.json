@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "key-runner.helloWorld",
-        "title": "Hello World"
+        "command": "key-runner.run",
+        "title": "Run command in Terminal"
       }
     ]
   },
