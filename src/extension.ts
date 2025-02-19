@@ -39,6 +39,11 @@ export function activate(context: vscode.ExtensionContext) {
 		// Display a message box to the user
 		// vscode.window.showInformationMessage('Hello World from key-runner!');
 
+		try {
+			await vscode.commands.executeCommand('workbench.action.files.save');
+		} catch (error) {
+			vscode.window.showErrorMessage('保存文件时出错:' + error);
+		}
 		async function getTerminal(): Promise<vscode.Terminal> {
 			let terminal: vscode.Terminal | undefined = undefined;
 			terminal = vscode.window.terminals.find(t => t.name === "Runner");
